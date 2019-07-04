@@ -11,6 +11,17 @@
     <string name="menu_setting">Settings</string>
     <string name="menu_help">Helps</string>
     <string name="menu_about">About</string>
+
     <string name="label_pomodoro">PomoBox</string>
     <string name="menu_divide_extension">Extension</string>
+
+    <string-array name="options_array">
+        <item>Aishenhower Box</item>
+        <item>Pomodoro</item>
+        <item>Break Tasks</item>
+        <item>Settings</item>
+        <item>Helps</item>
+        <item>About</item>
+    </string-array>
+
 </resources>
