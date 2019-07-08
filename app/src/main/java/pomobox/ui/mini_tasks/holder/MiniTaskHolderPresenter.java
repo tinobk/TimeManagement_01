@@ -27,6 +27,7 @@ public class MiniTaskHolderPresenter implements MiniTaskHolderContract.Presenter
     @Override
     public void deleteTask(MiniTask task) {
         mHelper.deleteTaskData(task.getTaskId());
+        mView.onTaskDeleteSuccess();
     }
 
     @Override

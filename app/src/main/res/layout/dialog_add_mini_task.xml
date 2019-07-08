@@ -12,7 +12,7 @@
         android:id="@+id/text_add_mini_task"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/color_yellow_pale_goldenrod"
+        android:background="@color/color_yellow_mustard"
         android:paddingStart="@dimen/dp_16"
         android:paddingLeft="@dimen/dp_16"
         android:text="@string/title_add_new_mini_task"

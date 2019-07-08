@@ -40,8 +40,7 @@
     <string name="expected_pomodoro">Expected Pomodoro</string>
     <string name="button_create">Create</string>
     <string name="warning_title_empty">Please enter the task title!</string>
-    <string name="toast_save">Saved!</string>
-    <string name="default_zero">0</string>
+    <string name="toast_created">Created!</string>
     <string name="default_one">1</string>
     <string name="toast_delete">Deleted!</string>
     <string name="ask_for_delete">Are you sure to delete?</string>

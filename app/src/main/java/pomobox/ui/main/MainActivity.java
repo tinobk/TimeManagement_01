@@ -89,7 +89,13 @@ public class MainActivity extends AppCompatActivity
     //Action when click on setting button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        selectItem(OPTION_SETTINGS);
+        setTitle(mOptionTitles[OPTION_SETTINGS]);
+        Fragment fragment = mFragmentManager.findFragmentById(R.id.content_frame);
+        if (!(fragment instanceof SettingsFragment))
+            fragment = SettingsFragment.newInstance();
+        mFragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .addToBackStack(null).commit();
         return super.onOptionsItemSelected(item);
     }
 
@@ -97,73 +103,48 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         //Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Fragment fragment = mFragmentManager.findFragmentById(R.id.content_frame);
         switch (id) {
             case R.id.nav_aishenhower:
                 //Handle the aishenhower box action
-                selectItem(OPTION_AISHENHOWER_BOX);
+                setTitle(mOptionTitles[OPTION_AISHENHOWER_BOX]);
+                if (!(fragment instanceof EishenhowerBoxFragment))
+                    fragment = EishenhowerBoxFragment.newInstance();
                 break;
             case R.id.nav_pomodoro:
-                selectItem(OPTION_POMODORO);
+                setTitle(mOptionTitles[OPTION_POMODORO]);
+                if (!(fragment instanceof PomodoroFragment))
+                    fragment = PomodoroFragment.newInstance();
                 break;
             case R.id.nav_mini_tasks:
-                selectItem(OPTION_MINI_TASKS);
+                setTitle(mOptionTitles[OPTION_MINI_TASKS]);
+                if (!(fragment instanceof MiniTaskFragment))
+                    fragment = MiniTaskFragment.newInstance();
                 break;
             case R.id.nav_settings:
-                selectItem(OPTION_SETTINGS);
+                setTitle(mOptionTitles[OPTION_SETTINGS]);
+                if (!(fragment instanceof SettingsFragment))
+                    fragment = SettingsFragment.newInstance();
                 break;
             case R.id.nav_help:
-                selectItem(OPTION_HELPS);
+                setTitle(mOptionTitles[OPTION_HELPS]);
+                if (!(fragment instanceof HelpsFragment))
+                    fragment = HelpsFragment.newInstance();
                 break;
             case R.id.nav_about:
-                selectItem(OPTION_ABOUT);
+                setTitle(mOptionTitles[OPTION_ABOUT]);
+                if (!(fragment instanceof AboutFragment))
+                    fragment = AboutFragment.newInstance();
                 break;
             default:
                 break;
         }
-        if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private void selectItem(int position) {
-        //update the no_items content by replacing fragments
-        Fragment fragment = null;
-        @IOptions int i = position;
-        switch (i) {
-            case OPTION_AISHENHOWER_BOX:
-                fragment = EishenhowerBoxFragment.newInstance();
-                break;
-
-            case OPTION_POMODORO:
-                fragment = PomodoroFragment.newInstance();
-                break;
-
-            case OPTION_MINI_TASKS:
-                fragment = MiniTaskFragment.newInstance();
-                break;
-
-            case OPTION_SETTINGS:
-                fragment = SettingsFragment.newInstance();
-                break;
-
-            case OPTION_HELPS:
-                fragment = HelpsFragment.newInstance();
-                break;
-
-            case OPTION_ABOUT:
-                fragment = AboutFragment.newInstance();
-                break;
-
-            default:
-                break;
-        }
-
-        mFragmentManager.popBackStack();
         if (fragment != null) {
             mFragmentManager.beginTransaction()
                     .replace(R.id.content_frame, fragment)
                     .addToBackStack(null).commit();
         }
-        setTitle(mOptionTitles[position]);
+        if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

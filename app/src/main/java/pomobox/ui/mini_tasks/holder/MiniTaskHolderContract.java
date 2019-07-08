@@ -10,6 +10,8 @@ public interface MiniTaskHolderContract {
         void viewUnCheck();
 
         void viewOnDeleteTask();
+
+        void onTaskDeleteSuccess();
     }
 
     interface Presenter {

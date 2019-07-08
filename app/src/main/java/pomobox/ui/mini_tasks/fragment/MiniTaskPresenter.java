@@ -3,6 +3,8 @@ package pomobox.ui.mini_tasks.fragment;
 import pomobox.data.database.MiniTaskHelperDB;
 import pomobox.data.model.MiniTask;
 
+import static pomobox.utils.Constants.ONE_VALUE;
+
 public class MiniTaskPresenter implements MiniTaskContract.Presenter {
 
     private MiniTaskContract.View mView;
@@ -25,7 +27,8 @@ public class MiniTaskPresenter implements MiniTaskContract.Presenter {
         if (title.isEmpty()) {
             mView.showInputEmpty();
         } else {
-            MiniTask taskData = new MiniTask(title, content, target);
+            int index = mHelperDB.getTaskCount() + ONE_VALUE;
+            MiniTask taskData = new MiniTask(title, content, target, index);
             mHelperDB.insertTaskData(taskData);
             mView.showAddTaskSuccess(taskData);
         }

@@ -12,16 +12,18 @@ public class MiniTask implements Parcelable {
     private String mTaskContent;
     private int mTargetPomo;
     private int mProgressPomo;
+    private int mIndex;
 
     public MiniTask() {
     }
 
-    public MiniTask(String taskTitle, String taskContent, int targetPomo) {
+    public MiniTask(String taskTitle, String taskContent, int targetPomo, int index) {
         mIsDone = ZERO_VALUE;
         mTaskTitle = taskTitle;
         mTaskContent = taskContent;
-        mProgressPomo = ZERO_VALUE;
         mTargetPomo = targetPomo;
+        mProgressPomo = ZERO_VALUE;
+        mIndex = index;
     }
 
     protected MiniTask(Parcel in) {
@@ -31,6 +33,7 @@ public class MiniTask implements Parcelable {
         mTaskContent = in.readString();
         mTargetPomo = in.readInt();
         mProgressPomo = in.readInt();
+        mIndex = in.readInt();
     }
 
     public static final Creator<MiniTask> CREATOR = new Creator<MiniTask>() {
@@ -93,6 +96,14 @@ public class MiniTask implements Parcelable {
         mProgressPomo = progressPomo;
     }
 
+    public int getIndex() {
+        return mIndex;
+    }
+
+    public void setIndex(int index) {
+        mIndex = index;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -106,5 +117,6 @@ public class MiniTask implements Parcelable {
         dest.writeString(mTaskContent);
         dest.writeInt(mProgressPomo);
         dest.writeInt(mTargetPomo);
+        dest.writeInt(mIndex);
     }
 }

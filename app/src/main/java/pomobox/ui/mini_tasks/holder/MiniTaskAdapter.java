@@ -1,11 +1,14 @@
 package pomobox.ui.mini_tasks.holder;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -14,25 +17,33 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 import pomobox.R;
 import pomobox.base.BaseAlertDialog;
 import pomobox.data.database.MiniTaskHelperDB;
+import pomobox.ui.mini_tasks.helper.ItemTouchHelperAdapter;
+import pomobox.ui.mini_tasks.helper.ItemTouchHelperViewHolder;
+import pomobox.ui.mini_tasks.helper.OnStartDragListener;
 import pomobox.data.model.MiniTask;
 
 import static pomobox.utils.Constants.ONE_VALUE;
 import static pomobox.utils.Constants.ZERO_VALUE;
 
-public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHolder> {
+public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHolder>
+        implements ItemTouchHelperAdapter {
     private List<MiniTask> mMiniTasks;
     private Context mContext;
     private MiniTaskHelperDB mHelper;
+    private OnStartDragListener mDragStartListener;
 
-    public MiniTaskAdapter(Context context, List<MiniTask> listTask, MiniTaskHelperDB helper) {
+    public MiniTaskAdapter(Context context, List<MiniTask> listTask, MiniTaskHelperDB helper,
+                           OnStartDragListener dragStartListener) {
         mMiniTasks = listTask;
         mContext = context;
         mHelper = helper;
+        mDragStartListener = dragStartListener;
     }
 
     @NonNull
@@ -42,6 +53,7 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
                 .inflate(R.layout.item_mini_task, viewGroup, false));
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         mHelper = new MiniTaskHelperDB(mContext);
@@ -62,13 +74,37 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
         return mMiniTasks == null ? ZERO_VALUE : mMiniTasks.size();
     }
 
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        MiniTask task1 = mMiniTasks.get(fromPosition);
+        MiniTask task2 = mMiniTasks.get(toPosition);
+        task1.setIndex(toPosition);
+        task2.setIndex(fromPosition);
+        Collections.swap(mMiniTasks, fromPosition, toPosition);
+        mHelper.updateTaskData(String.valueOf(task1.getTaskId()), task1);
+        mHelper.updateTaskData(String.valueOf(task2.getTaskId()), task2);
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        mHelper.deleteTaskData(mMiniTasks.get(position).getTaskId());
+        mMiniTasks.remove(position);
+        Toast.makeText(mContext,
+                mContext.getString(R.string.toast_delete), Toast.LENGTH_SHORT).show();
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder
-            implements CompoundButton.OnCheckedChangeListener, View.OnClickListener, MiniTaskHolderContract.View {
+            implements CompoundButton.OnCheckedChangeListener, View.OnClickListener,
+            MiniTaskHolderContract.View, ItemTouchHelperViewHolder, View.OnTouchListener {
         private CheckBox mCBTaskDone;
         private TextView mTextTaskTitle, mTextTaskContent, mTextTaskProgress;
-        private ImageButton mButtonDel;
+        private ImageButton mButtonDel, mButtonDragItem;
         private MiniTaskHolderPresenter mTaskHolderPresenter;
 
+        @SuppressLint("ClickableViewAccessibility")
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             mCBTaskDone = itemView.findViewById(R.id.checkbox_done);
@@ -76,7 +112,10 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
             mTextTaskContent = itemView.findViewById(R.id.text_content);
             mTextTaskProgress = itemView.findViewById(R.id.text_progress);
             mButtonDel = itemView.findViewById(R.id.button_del_task);
+            mButtonDragItem = itemView.findViewById(R.id.button_drag_task);
             mTaskHolderPresenter = new MiniTaskHolderPresenter(this, mHelper);
+            //On Click Action
+            mButtonDragItem.setOnTouchListener(this);
             mButtonDel.setOnClickListener(this);
             mCBTaskDone.setOnCheckedChangeListener(this);
         }
@@ -90,7 +129,7 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
 
         @Override
         public void onClick(View v) {
-            //click show aleart dialog
+            //click show alert dialog
             mTaskHolderPresenter.handleDeleteTask();
         }
 
@@ -108,6 +147,7 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
             mTextTaskTitle.setTypeface(mTextTaskTitle.getTypeface(), Typeface.BOLD);
         }
 
+        //Ask for delete item
         @Override
         public void viewOnDeleteTask() {
             //Alert dialog delete mini task
@@ -120,17 +160,45 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
                 @Override
                 protected void actionClickPositive() {
                     mTaskHolderPresenter.deleteTask(mMiniTasks.get(getAdapterPosition()));
-                    mMiniTasks.remove(getAdapterPosition());
-                    Toast.makeText(mContext, mContext.getString(R.string.toast_delete), Toast.LENGTH_SHORT).show();
-                    notifyDataSetChanged();
                 }
 
                 @Override
                 public void actionClickNegative() {
-
+                    notifyDataSetChanged();
                 }
             };
             alertDialog.showDialog();
+        }
+
+        @Override
+        public void onTaskDeleteSuccess() {
+            mMiniTasks.remove(getAdapterPosition());
+            Toast.makeText(mContext,
+                    mContext.getString(R.string.toast_delete), Toast.LENGTH_SHORT).show();
+            notifyDataSetChanged();
+        }
+
+        //On item dragged
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(mContext.getResources().getColor(R.color.color_white));
+        }
+
+        //On item clear
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(mContext.getResources()
+                    .getColor(R.color.color_yellow_mustard));
+        }
+
+        //Touch on button to drag item
+        @SuppressLint("ClickableViewAccessibility")
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                mDragStartListener.onStartDrag(this);
+            }
+            return false;
         }
     }
 }
