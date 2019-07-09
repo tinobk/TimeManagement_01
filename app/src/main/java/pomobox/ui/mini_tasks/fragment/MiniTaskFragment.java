@@ -2,6 +2,7 @@ package pomobox.ui.mini_tasks.fragment;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -141,9 +142,10 @@ public class MiniTaskFragment extends BaseFragment implements MiniTaskContract.V
     }
 
     @Override
-    public void showAddTaskSuccess(MiniTask miniTask) {
+    public void showAddTaskSuccess(MiniTask miniTask, Dialog dialog) {
         if (miniTask != null) mTaskDataList.add(miniTask);
         Toast.makeText(mContext, getString(R.string.toast_save), Toast.LENGTH_SHORT).show();
         mAdapter.notifyDataSetChanged();
+        dialog.dismiss();
     }
 }
