@@ -12,6 +12,8 @@ public abstract class BaseFragment extends Fragment {
     @LayoutRes
     public abstract int getLayoutId();
 
+    public abstract void onViewReady(View view);
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +22,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
+        onViewReady(view);
         return view;
     }
 }

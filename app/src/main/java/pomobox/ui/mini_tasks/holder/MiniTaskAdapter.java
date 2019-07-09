@@ -18,18 +18,19 @@ import java.util.List;
 
 import pomobox.R;
 import pomobox.base.BaseAlertDialog;
-import pomobox.data.model.MiniTask;
 import pomobox.data.database.MiniTaskHelperDB;
+import pomobox.data.model.MiniTask;
 
-import static pomobox.utils.Constants.VALUE_ONE;
+import static pomobox.utils.Constants.ONE_VALUE;
+import static pomobox.utils.Constants.ZERO_VALUE;
 
 public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHolder> {
-    private List<MiniTask> mListTask;
+    private List<MiniTask> mMiniTasks;
     private Context mContext;
     private MiniTaskHelperDB mHelper;
 
     public MiniTaskAdapter(Context context, List<MiniTask> listTask, MiniTaskHelperDB helper) {
-        mListTask = listTask;
+        mMiniTasks = listTask;
         mContext = context;
         mHelper = helper;
     }
@@ -44,12 +45,12 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         mHelper = new MiniTaskHelperDB(mContext);
-        boolean check = mListTask.get(i).getIsDone() == VALUE_ONE;
+        boolean check = mMiniTasks.get(i).getIsDone() == ONE_VALUE;
         viewHolder.mCBTaskDone.setChecked(check);
-        viewHolder.mTextTaskTitle.setText(mListTask.get(i).getTaskTitle());
-        viewHolder.mTextTaskContent.setText(mListTask.get(i).getTaskContent());
-        String progress = mListTask.get(i).getProgressPomo() +
-                mContext.getString(R.string.separate_progress) + mListTask.get(i).getTargetPomo();
+        viewHolder.mTextTaskTitle.setText(mMiniTasks.get(i).getTaskTitle());
+        viewHolder.mTextTaskContent.setText(mMiniTasks.get(i).getTaskContent());
+        String progress = mMiniTasks.get(i).getProgressPomo() +
+                mContext.getString(R.string.separate_progress) + mMiniTasks.get(i).getTargetPomo();
         viewHolder.mTextTaskProgress.setText(progress);
         if (viewHolder.mCBTaskDone.isChecked())
             viewHolder.mTextTaskTitle.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -58,7 +59,7 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mListTask == null ? 0 : mListTask.size();
+        return mMiniTasks == null ? ZERO_VALUE : mMiniTasks.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder
@@ -83,7 +84,7 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             //check complete mini task
-            MiniTask task = mListTask.get(getAdapterPosition());
+            MiniTask task = mMiniTasks.get(getAdapterPosition());
             mTaskHolderPresenter.handleTaskDone(task, isChecked);
         }
 
@@ -118,8 +119,8 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
                     R.mipmap.ic_icon) {
                 @Override
                 protected void actionClickPositive() {
-                    mTaskHolderPresenter.deleteTask(mListTask.get(getAdapterPosition()));
-                    mListTask.remove(getAdapterPosition());
+                    mTaskHolderPresenter.deleteTask(mMiniTasks.get(getAdapterPosition()));
+                    mMiniTasks.remove(getAdapterPosition());
                     Toast.makeText(mContext, mContext.getString(R.string.toast_delete), Toast.LENGTH_SHORT).show();
                     notifyDataSetChanged();
                 }

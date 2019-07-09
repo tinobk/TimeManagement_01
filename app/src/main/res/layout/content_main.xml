@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="pomobox.main.MainActivity"
+    tools:context="pomobox.ui.main.MainActivity"
     android:id="@+id/content_frame"
     tools:showIn="@layout/app_bar_main" >
     <fragment
-        android:name="pomobox.pomodoro.PomodoroFragment"
+        android:name="pomobox.ui.pomodoro.PomodoroFragment"
         android:id="@+id/fragment_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
