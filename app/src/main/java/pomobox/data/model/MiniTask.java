@@ -3,9 +3,6 @@ package pomobox.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
-import static pomobox.utils.Constants.DEFAULT_ZERO_VALUE;
 import static pomobox.utils.Constants.ZERO_VALUE;
 
 public class MiniTask implements Parcelable {
