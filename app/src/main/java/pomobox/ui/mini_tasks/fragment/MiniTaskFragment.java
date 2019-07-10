@@ -2,7 +2,6 @@ package pomobox.ui.mini_tasks.fragment;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Build;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import pomobox.R;
 import pomobox.base.BaseCustomDialog;
@@ -24,6 +22,8 @@ import pomobox.base.BaseFragment;
 import pomobox.data.model.MiniTask;
 import pomobox.data.database.MiniTaskHelperDB;
 import pomobox.ui.mini_tasks.holder.MiniTaskAdapter;
+
+import static pomobox.utils.Constants.TEN_VALUE;
 
 public class MiniTaskFragment extends BaseFragment implements MiniTaskContract.View {
 
@@ -103,9 +103,6 @@ public class MiniTaskFragment extends BaseFragment implements MiniTaskContract.V
                 Button buttonAdd = dialog.findViewById(R.id.button_create_task);
                 final SeekBar seekBar = dialog.findViewById(R.id.seekbar_target_pomodoro);
                 seekBar.setMax(TEN_VALUE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    seekBar.setMin(ONE_VALUE);
-                }
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -123,13 +120,14 @@ public class MiniTaskFragment extends BaseFragment implements MiniTaskContract.V
                     }
                 });
 
-                btnAdd.setOnClickListener(new View.OnClickListener() {
+                buttonAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String taskTitle = textTitle.getText().toString();
                         String taskContent = textContent.getText().toString();
                         int targetPomodoro = seekBar.getProgress();
-                        mTaskPresenter.checkAddMiniTask(dialog, taskTitle, taskContent, targetPomodoro);
+                        mTaskPresenter.checkAddMiniTask(taskTitle, taskContent, targetPomodoro);\
+                        dialog.dismiss();
                     }
                 });
             }
@@ -143,10 +141,9 @@ public class MiniTaskFragment extends BaseFragment implements MiniTaskContract.V
     }
 
     @Override
-    public void showAddTaskSuccess(MiniTask miniTask, Dialog dialog) {
+    public void showAddTaskSuccess(MiniTask miniTask) {
         if (miniTask != null) mTaskDataList.add(miniTask);
         Toast.makeText(mContext, getString(R.string.toast_save), Toast.LENGTH_SHORT).show();
         mAdapter.notifyDataSetChanged();
-        dialog.dismiss();
     }
 }
