@@ -2,7 +2,7 @@ package pomobox.utils;
 
 public class Query {
 
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 3;
     public static final String DB_NAME = "pomodoro.db";
     public static final String MINI_TASK_TABLE = "MiniTaskTable";
 

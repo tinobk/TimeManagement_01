@@ -95,7 +95,7 @@ public class MiniTask implements Parcelable {
 
     @Override
     public int describeContents() {
-        return ZERO_VALUE;
+        return 0;
     }
 
     @Override
