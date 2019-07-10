@@ -1,6 +1,10 @@
 package pomobox.ui.mini_tasks.holder;
+
 import pomobox.data.database.MiniTaskHelperDB;
 import pomobox.data.model.MiniTask;
+
+import static pomobox.utils.Constants.ONE_VALUE;
+import static pomobox.utils.Constants.ZERO_VALUE;
 
 public class MiniTaskHolderPresenter implements MiniTaskHolderContract.Presenter {
 
@@ -27,7 +31,7 @@ public class MiniTaskHolderPresenter implements MiniTaskHolderContract.Presenter
 
     @Override
     public void handleTaskDone(MiniTask task, boolean isCheck) {
-        int done = isCheck ? 1 : 0;
+        int done = isCheck ? ONE_VALUE : ZERO_VALUE;
         task.setIsDone(done);
         if (isCheck) {
             mView.viewChecked();
@@ -37,4 +41,3 @@ public class MiniTaskHolderPresenter implements MiniTaskHolderContract.Presenter
         mHelper.updateTaskData(String.valueOf(task.getTaskId()), task);
     }
 }
-

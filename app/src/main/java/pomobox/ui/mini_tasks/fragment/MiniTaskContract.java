@@ -1,7 +1,5 @@
 package pomobox.ui.mini_tasks.fragment;
 
-import android.app.Dialog;
-
 import pomobox.data.model.MiniTask;
 
 public interface MiniTaskContract {
@@ -10,12 +8,12 @@ public interface MiniTaskContract {
 
         void showInputEmpty();
 
-        void showAddTaskSuccess(MiniTask breakTask, Dialog dialog);
+        void showAddTaskSuccess(MiniTask breakTask);
     }
 
     interface Presenter {
         void handleShowAddMiniTask();
 
-        void checkAddMiniTask(Dialog dialog, String title, String content, int target);
+        void checkAddMiniTask(String title, String content, int target);
     }
 }

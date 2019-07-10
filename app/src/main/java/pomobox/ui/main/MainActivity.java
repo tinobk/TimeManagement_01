@@ -20,7 +20,7 @@ import pomobox.ui.mini_tasks.fragment.MiniTaskFragment;
 import pomobox.ui.pomodoro.PomodoroFragment;
 import pomobox.R;
 import pomobox.ui.about.AboutFragment;
-import pomobox.ui.aishenhower_box.AishenhowerBoxFragment;
+import pomobox.ui.eishenhower_box.EishenhowerBoxFragment;
 import pomobox.utils.IOptions;
 import pomobox.ui.helps.HelpsFragment;
 import pomobox.ui.settings.SettingsFragment;
@@ -56,8 +56,9 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle actionBarDrawerToggle =
+                new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity
         @IOptions int i = position;
         switch (i) {
             case OPTION_AISHENHOWER_BOX:
-                fragment = AishenhowerBoxFragment.newInstance();
+                fragment = EishenhowerBoxFragment.newInstance();
                 break;
 
             case OPTION_POMODORO:
