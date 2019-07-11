@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_yellow_mustard">
+
+    <CheckBox
+        android:id="@+id/checkbox_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_8"
+        android:checked="false"
+        android:shadowColor="@color/color_orange_rich_gold"
+        android:text=""
+        app:backgroundTint="@color/color_orange_rich_gold"
+        app:buttonTint="@color/color_orange_rich_gold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:maxLines="1"
+        android:text="@string/title_mini_task"
+        android:textColor="@color/color_orange_rich_gold"
+        android:textSize="@dimen/sp_20"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/text_content"
+        app:layout_constraintEnd_toEndOf="@+id/text_content"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/checkbox_done"
+        app:layout_constraintTop_toTopOf="@+id/checkbox_done"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/text_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:maxLines="1"
+        android:text="@string/description_mini_tasks"
+        android:textColor="@color/color_orange_rich_gold"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_drag_task"
+        app:layout_constraintStart_toEndOf="@+id/button_do_pomodoro"
+        app:layout_constraintTop_toTopOf="@+id/button_do_pomodoro" />
+
+    <TextView
+        android:id="@+id/text_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/default_task_process"
+        android:textColor="@color/color_orange_rich_gold"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="@+id/button_do_pomodoro"
+        app:layout_constraintEnd_toEndOf="@+id/checkbox_done"
+        app:layout_constraintStart_toStartOf="@+id/checkbox_done"
+        app:layout_constraintTop_toBottomOf="@+id/checkbox_done" />
+
+    <ImageButton
+        android:id="@+id/button_del_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_8"
+        android:background="@color/color_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close"
+        tools:ignore="ContentDescription,VectorDrawableCompat" />
+
+    <ImageButton
+        android:id="@+id/button_drag_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_8"
+        android:background="@color/color_transparent"
+        android:contentDescription="@string/des_button_drag_task"
+        android:src="@drawable/ic_drag_task"
+        app:layout_constraintBottom_toBottomOf="@+id/text_content"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/button_do_pomodoro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:background="@color/color_transparent"
+        android:contentDescription="@string/des_button_do_pomodoro"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkbox_done"
+        app:srcCompat="@drawable/ic_do_pomodoro"
+        tools:ignore="VectorDrawableCompat" />
+</android.support.constraint.ConstraintLayout>
