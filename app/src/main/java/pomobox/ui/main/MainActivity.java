@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         Window window = this.getWindow();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.color_dark_red));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.color_red_fire_brick));
         }
         setContentView(R.layout.activity_main);
         initView();

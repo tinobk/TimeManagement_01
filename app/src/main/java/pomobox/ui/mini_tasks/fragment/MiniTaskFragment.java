@@ -58,9 +58,11 @@ public class MiniTaskFragment extends BaseFragment implements MiniTaskContract.V
 
     private void initRecyclerView() {
         mRecyclerMiniTask.setHasFixedSize(false);
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager mLinearLayoutManager =
+                new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerMiniTask.setLayoutManager(mLinearLayoutManager);
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
+        DividerItemDecoration mDividerItemDecoration =
+                new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
         mRecyclerMiniTask.addItemDecoration(mDividerItemDecoration);
         mRecyclerMiniTask.setItemAnimator(new DefaultItemAnimator());
 
@@ -126,7 +128,7 @@ public class MiniTaskFragment extends BaseFragment implements MiniTaskContract.V
                         String taskTitle = textTitle.getText().toString();
                         String taskContent = textContent.getText().toString();
                         int targetPomodoro = seekBar.getProgress();
-                        mTaskPresenter.checkAddMiniTask(taskTitle, taskContent, targetPomodoro);\
+                        mTaskPresenter.checkAddMiniTask(taskTitle, taskContent, targetPomodoro);
                         dialog.dismiss();
                     }
                 });

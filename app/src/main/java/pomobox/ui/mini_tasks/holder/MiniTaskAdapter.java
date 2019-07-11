@@ -114,8 +114,8 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
             BaseAlertDialog alertDialog = new BaseAlertDialog(mContext,
                     mContext.getString(R.string.app_name),
                     mContext.getString(R.string.ask_for_delete),
-                    mContext.getString(R.string.aleart_no),
-                    mContext.getString(R.string.aleart_yes),
+                    mContext.getString(R.string.alert_no),
+                    mContext.getString(R.string.alert_yes),
                     R.mipmap.ic_icon) {
                 @Override
                 protected void actionClickPositive() {

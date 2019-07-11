@@ -132,6 +132,6 @@ public class MiniTaskHelperDB extends SQLiteOpenHelper{
 
     public void closeDB() {
         SQLiteDatabase db = this.getReadableDatabase();
-        if (db != null && db.isOpen()) db.close();
+        if(db != null && db.isOpen()) db.close();
     }
 }

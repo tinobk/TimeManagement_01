@@ -6,16 +6,16 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_aishenhower"
-            android:icon="@drawable/ic_menu_aishenhower_box"
-            android:title="@string/menu_aishenhower_box" />
+            android:icon="@drawable/ic_menu_eishenhower_box"
+            android:title="@string/menu_eishenhower_box" />
         <item
             android:id="@+id/nav_pomodoro"
             android:icon="@drawable/ic_menu_pomodoro"
             android:title="@string/menu_pomodoro" />
         <item
-            android:id="@+id/nav_break_tasks"
-            android:icon="@drawable/ic_menu_break_task"
-            android:title="@string/menu_break_task" />
+            android:id="@+id/nav_mini_tasks"
+            android:icon="@drawable/ic_menu_mini_task"
+            android:title="@string/menu_mini_task" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_setting"
