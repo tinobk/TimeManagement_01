@@ -18,20 +18,20 @@ public class MiniTaskHolderPresenter implements MiniTaskHolderContract.Presenter
 
 
     @Override
-    public void handleDeleteTask() {
-        if (mHelper.getTaskCount() != 0) {
+    public void handleDeleteMiniTask() {
+        if (mHelper.getTaskCount() != ZERO_VALUE) {
             mView.viewOnDeleteTask();
         }
     }
 
     @Override
-    public void deleteTask(MiniTask task) {
+    public void deleteMiniTask(MiniTask task) {
         mHelper.deleteTaskData(task.getTaskId());
         mView.onTaskDeleteSuccess();
     }
 
     @Override
-    public void handleTaskDone(MiniTask task, boolean isCheck) {
+    public void handleMiniTaskDone(MiniTask task, boolean isCheck) {
         int done = isCheck ? ONE_VALUE : ZERO_VALUE;
         task.setIsDone(done);
         if (isCheck) {
@@ -42,3 +42,4 @@ public class MiniTaskHolderPresenter implements MiniTaskHolderContract.Presenter
         mHelper.updateTaskData(String.valueOf(task.getTaskId()), task);
     }
 }
+

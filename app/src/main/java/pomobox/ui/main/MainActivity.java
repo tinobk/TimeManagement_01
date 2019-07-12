@@ -21,7 +21,6 @@ import pomobox.ui.pomodoro.PomodoroFragment;
 import pomobox.R;
 import pomobox.ui.about.AboutFragment;
 import pomobox.ui.eishenhower_box.EishenhowerBoxFragment;
-import pomobox.utils.IOptions;
 import pomobox.ui.helps.HelpsFragment;
 import pomobox.ui.settings.SettingsFragment;
 
@@ -63,6 +62,8 @@ public class MainActivity extends AppCompatActivity
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         mFragmentManager = getSupportFragmentManager();
+        mFragmentManager.beginTransaction()
+                .add(R.id.content_frame, PomodoroFragment.newInstance()).commit();
         mOptionTitles = getResources().getStringArray(R.array.options_array);
         setTitle(mOptionTitles[APP_BAR_DEFAULT_TITLE]);
     }

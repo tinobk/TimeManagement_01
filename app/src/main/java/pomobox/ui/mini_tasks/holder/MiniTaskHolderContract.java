@@ -15,10 +15,10 @@ public interface MiniTaskHolderContract {
     }
 
     interface Presenter {
-        void handleDeleteTask();
+        void handleDeleteMiniTask();
 
-        void deleteTask(MiniTask task);
+        void deleteMiniTask(MiniTask task);
 
-        void handleTaskDone(MiniTask task, boolean isCheck);
+        void handleMiniTaskDone(MiniTask task, boolean isCheck);
     }
 }

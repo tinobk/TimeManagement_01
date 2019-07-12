@@ -39,14 +39,22 @@
     <string name="enter_you_task_description">Enter you task description</string>
     <string name="expected_pomodoro">Expected Pomodoro</string>
     <string name="button_create">Create</string>
+    <string name="button_update">Update</string>
+    <string name="button_back">Back</string>
     <string name="warning_title_empty">Please enter the task title!</string>
     <string name="toast_created">Created!</string>
     <string name="default_one">1</string>
+    <string name="default_two_five">2/5</string>
+    <string name="default_five">5</string>
     <string name="toast_delete">Deleted!</string>
     <string name="ask_for_delete">Are you sure to delete?</string>
     <string name="alert_yes">Yes</string>
     <string name="alert_no">No</string>
     <string name="separate_progress">/</string>
     <string name="query_equal"> == </string>
+    <string name="title_mini_task_update">Mini Task Title</string>
+    <string name="progress_mini_task">Progress Mini Task</string>
+    <string name="toast_updated">Updated!</string>
+    <string name="update_failure">Something went wrong, Update fail!</string>
 
 </resources>

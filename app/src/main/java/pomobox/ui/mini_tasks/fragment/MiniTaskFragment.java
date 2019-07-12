@@ -2,6 +2,7 @@ package pomobox.ui.mini_tasks.fragment;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,8 @@ public class MiniTaskFragment extends BaseFragment implements MiniTaskContract.V
     private ImageButton mButtonAdd;
     private MiniTaskPresenter mTaskPresenter;
     private ItemTouchHelper mItemTouchHelper;
+    private FragmentManager mFragmentManager;
+    private Context mContext;
 
     public static MiniTaskFragment newInstance() {
         return new MiniTaskFragment();
@@ -49,7 +52,11 @@ public class MiniTaskFragment extends BaseFragment implements MiniTaskContract.V
 
     @Override
     public void onViewReady(View view) {
+        if(getActivity() != null){
+            mContext = getActivity().getApplicationContext();
+        }
         mRecyclerMiniTask = view.findViewById(R.id.recycler_mini_tasks);
+        mFragmentManager = getFragmentManager();
         mButtonAdd = view.findViewById(R.id.button_add_list);
         mHelper = new MiniTaskHelperDB(getContext());
         mTaskDataList = (ArrayList<MiniTask>) mHelper.getAllTasksByIndex();
@@ -61,14 +68,15 @@ public class MiniTaskFragment extends BaseFragment implements MiniTaskContract.V
     private void initRecyclerView() {
         mRecyclerMiniTask.setHasFixedSize(false);
         LinearLayoutManager mLinearLayoutManager =
-                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         mRecyclerMiniTask.setLayoutManager(mLinearLayoutManager);
         DividerItemDecoration mDividerItemDecoration =
-                new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+                new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
         mRecyclerMiniTask.addItemDecoration(mDividerItemDecoration);
         //Set default animation for recycler view
         mRecyclerMiniTask.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new MiniTaskAdapter(getContext(), mTaskDataList, mHelper, this);
+        mAdapter = new MiniTaskAdapter(mContext, mTaskDataList,
+                mHelper, this, mFragmentManager);
         mRecyclerMiniTask.setAdapter(mAdapter);
         //Handle drag on recycler view
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
@@ -146,13 +154,13 @@ public class MiniTaskFragment extends BaseFragment implements MiniTaskContract.V
 
     @Override
     public void showInputEmpty() {
-        Toast.makeText(getContext(), getString(R.string.warning_title_empty), Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, getString(R.string.warning_title_empty), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showAddTaskSuccess(MiniTask miniTask) {
         if (miniTask != null) mTaskDataList.add(miniTask);
-        Toast.makeText(getContext(), getString(R.string.toast_created), Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, getString(R.string.toast_created), Toast.LENGTH_SHORT).show();
         mAdapter.notifyDataSetChanged();
     }
 

@@ -28,6 +28,6 @@ public class Query {
 
     public static final String DELETE_MINI_TASK_TABLE = "DROP TABLE IF EXISTS " + MINI_TASK_TABLE;
     public static final String SELECT_ALL = "SELECT * FROM " + MINI_TASK_TABLE;
-    public static final String SELECT_ALL_BY_INDEX = "SELECT * FROM " + MINI_TASK_TABLE + " ORDER BY "+INDEX_MINI_TASK;
+    public static final String SELECT_ALL_BY_INDEX = "SELECT * FROM " + MINI_TASK_TABLE + " ORDER BY " + INDEX_MINI_TASK;
     public static final String SELECT_BY_ID = "SELECT * FROM " + MINI_TASK_TABLE + " WHERE " + ID_MINI_TASK + " = ";
 }

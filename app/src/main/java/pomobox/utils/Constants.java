@@ -14,4 +14,5 @@ public class Constants {
     public static final int ONE_VALUE = 1;
     public static final int ZERO_VALUE = 0;
     public static final int TEN_VALUE = 10;
+    public static final int NINE_VALUE = 9;
 }

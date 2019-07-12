@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +25,7 @@ import java.util.List;
 import pomobox.R;
 import pomobox.base.BaseAlertDialog;
 import pomobox.data.database.MiniTaskHelperDB;
+import pomobox.ui.mini_tasks.fragment_detail.DetailMiniTaskFragment;
 import pomobox.ui.mini_tasks.helper.ItemTouchHelperAdapter;
 import pomobox.ui.mini_tasks.helper.ItemTouchHelperViewHolder;
 import pomobox.ui.mini_tasks.helper.OnStartDragListener;
@@ -33,17 +36,21 @@ import static pomobox.utils.Constants.ZERO_VALUE;
 
 public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHolder>
         implements ItemTouchHelperAdapter {
+
+    public static final String KEY_DETAIL_MINI_TASK = "Key Detai Mini Task";
     private List<MiniTask> mMiniTasks;
     private Context mContext;
     private MiniTaskHelperDB mHelper;
     private OnStartDragListener mDragStartListener;
+    private FragmentManager mFragmentManager;
 
     public MiniTaskAdapter(Context context, List<MiniTask> listTask, MiniTaskHelperDB helper,
-                           OnStartDragListener dragStartListener) {
+                           OnStartDragListener dragStartListener, FragmentManager fragmentManager) {
         mMiniTasks = listTask;
         mContext = context;
         mHelper = helper;
         mDragStartListener = dragStartListener;
+        mFragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -118,19 +125,31 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
             mButtonDragItem.setOnTouchListener(this);
             mButtonDel.setOnClickListener(this);
             mCBTaskDone.setOnCheckedChangeListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             //check complete mini task
             MiniTask task = mMiniTasks.get(getAdapterPosition());
-            mTaskHolderPresenter.handleTaskDone(task, isChecked);
+            mTaskHolderPresenter.handleMiniTaskDone(task, isChecked);
         }
 
         @Override
         public void onClick(View v) {
             //click show alert dialog
-            mTaskHolderPresenter.handleDeleteTask();
+            if (v.getId() == R.id.button_del_task) mTaskHolderPresenter.handleDeleteMiniTask();
+            else if (v == itemView) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(KEY_DETAIL_MINI_TASK, mMiniTasks.get(getAdapterPosition()));
+                Fragment fragment = DetailMiniTaskFragment.newInstance();
+                fragment.setArguments(bundle);
+                if (mFragmentManager != null) {
+                    mFragmentManager.beginTransaction()
+                            .replace(R.id.content_frame, fragment)
+                            .addToBackStack(null).commit();
+                }
+            }
         }
 
         @Override
@@ -159,7 +178,7 @@ public class MiniTaskAdapter extends RecyclerView.Adapter<MiniTaskAdapter.ViewHo
                     R.mipmap.ic_icon) {
                 @Override
                 protected void actionClickPositive() {
-                    mTaskHolderPresenter.deleteTask(mMiniTasks.get(getAdapterPosition()));
+                    mTaskHolderPresenter.deleteMiniTask(mMiniTasks.get(getAdapterPosition()));
                 }
 
                 @Override
